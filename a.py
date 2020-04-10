@@ -47,22 +47,30 @@ def GetMarketItem(appid, name, currency = Currency.IND.value):
     Item.name = name.replace("+", " ").replace("StatTrak%E2%84%A2 ", "StatTrak ")
     strdat = str(data)
     lowprc = data['lowest_price'].replace(" ", "").replace("Rp","")
+    medprc = data['median_price'].replace(" ", "").replace("Rp","")
+    volume = data['volume']
     lowprc2 = float(lowprc)
     lowprc3 = int(lowprc2)
-    medprc = data['median_price'].replace(" ", "").replace("Rp","")
     medprc2 = float(medprc)
     medprc3 = int(medprc2)
     profitprc =(lowprc2 - medprc2)
     profitprc2 = int(profitprc)
+    profitprc3 = str(profitprc2)
     profitprcent = ((lowprc2-medprc2)/medprc2)*100
     #profitprcent = (float(lowprc2)/float(medprc2))*100
     profitprcent2 = (str(profitprcent))
-    recommended_price = (medprc3)-((15/100)*medprc3)
-    recommended_price2 = str(recommended_price)
+    recommended_price = (lowprc3 / 100)*20
+    reccc = lowprc3 - recommended_price
+    recommended_price2 = str(reccc)
     fullurl = ("https://steamcommunity.com/market/listings/%s/" % (appid)+ name)
     fullurl2 = (fullurl.replace("+","%20").replace("|","%7C").replace("(","%28").replace(")","%29"))
+    
+    
     print(Item.name, ":")
     print("URL       =",fullurl2)
+    print("Lowest    = "+data['lowest_price'])
+    print("Median    = "+data['median_price'])
+    print("Volume    = "+data['volume']+" / Day")
 
     
   except urllib.error.URLError as e:
@@ -77,24 +85,30 @@ def GetMarketItem(appid, name, currency = Currency.IND.value):
     if (strdat.find('volume') != -1):
       Item.volume = data['volume']
     if  lowprc > medprc:
-      print("Profit    = Rp", profitprc2, "=",profitprcent2[0:3], "%")
+      print("Profit    = Rp",profitprc3, "Atau",profitprcent2[0:3], "%")
       print("Rec Price = Rp",recommended_price2)
     else:
       print("Tidak Profit")
+    if (profitprcent) > 10:
+      print("Sangad Profit")
+    else:
+      pass
   return Item
+
 
 def PrintMarketItem(it, volume = True):
   #if (len(it.name) > 0):
     #print(it.name + ": ")
-  if (len(it.lowest_price) > 0):
-    print("Lowest    = " + it.lowest_price)
-  if (len(it.median_price) > 0):
-    print("Median    = " + it.median_price)
-  if (len(it.volume) > 0):
-    print("Volume    = " + it.volume + " / Hari")
-  else:
+  #if (len(it.lowest_price) > 0):
+    #print("Lowest    = " + it.lowest_price)
+  #if (len(it.median_price) > 0):
+    #print("Median    = " + it.median_price)
+  #if (len(it.volume) > 0):
+    #print("Volume    = " + it.volume + " / Hari")
+  #else:
     pass
 
+print("Recommended price = 5% instant profit when u sell again in lowest price")
 nama_item = input("Masukkan nama item : ")
 pemanis = ("<-------------------------------------------------------------------------------------------------------->")
 # - # - # - # - # - # - # - # - # -# - # - # - # - # - # - # - # - # - #
