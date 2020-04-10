@@ -54,7 +54,8 @@ def GetMarketItem(appid, name, currency = Currency.IND.value):
     medprc3 = int(medprc2)
     profitprc =(lowprc2 - medprc2)
     profitprc2 = int(profitprc)
-    profitprcent = (float(lowprc2)/float(medprc2))*100
+    profitprcent = ((lowprc2-medprc2)/medprc2)*100
+    #profitprcent = (float(lowprc2)/float(medprc2))*100
     profitprcent2 = (str(profitprcent))
     recommended_price = (medprc3)-((15/100)*medprc3)
     recommended_price2 = str(recommended_price)
@@ -76,7 +77,7 @@ def GetMarketItem(appid, name, currency = Currency.IND.value):
     if (strdat.find('volume') != -1):
       Item.volume = data['volume']
     if  lowprc > medprc:
-      print("Profit    = Rp", profitprc2, "=",profitprcent2[2:5], "%")          
+      print("Profit    = Rp", profitprc2, "=",profitprcent2[0:3], "%")
       print("Rec Price = Rp",recommended_price2)
     else:
       print("Tidak Profit")
@@ -92,38 +93,38 @@ def PrintMarketItem(it, volume = True):
   if (len(it.volume) > 0):
     print("Volume    = " + it.volume + " / Hari")
   else:
-    print("Tolong Masukkan Nama Dengan Benar")
+    pass
 
 nama_item = input("Masukkan nama item : ")
 pemanis = ("<-------------------------------------------------------------------------------------------------------->")
 # - # - # - # - # - # - # - # - # -# - # - # - # - # - # - # - # - # - #
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,nama_item+ Exterior.BS))
-time.sleep(3)
+time.sleep(4)
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,nama_item+ Exterior.WW))
-time.sleep(3)
+time.sleep(4)
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,nama_item+ Exterior.FT))
-time.sleep(3)
+time.sleep(4)
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,nama_item+ Exterior.MW))
-time.sleep(3)
+time.sleep(4)
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,nama_item+ Exterior.FN))
-time.sleep(3)
+time.sleep(4)
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,Exterior.ST+ nama_item+ Exterior.BS))
-time.sleep(3)
+time.sleep(4)
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,Exterior.ST+ nama_item+ Exterior.WW))
-time.sleep(3)
+time.sleep(4)
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,Exterior.ST+ nama_item+ Exterior.FT))
-time.sleep(3)
+time.sleep(4)
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,Exterior.ST+ nama_item+ Exterior.MW))
-time.sleep(3)
+time.sleep(4)
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,Exterior.ST+ nama_item+ Exterior.FN))
 print(pemanis)
