@@ -1,6 +1,8 @@
 import urllib.request, json, urllib.error
 import enum
 import time
+from listsenjata import*
+
 class Exterior():
   ST = "StatTrak%E2%84%A2 "
   FN = " (Factory New)"
@@ -113,8 +115,9 @@ nama_item = input("Masukkan nama item : ")
 pemanis = ("<-------------------------------------------------------------------------------------------------------->")
 # - # - # - # - # - # - # - # - # -# - # - # - # - # - # - # - # - # - #
 print(pemanis)
-PrintMarketItem(GetMarketItem(AppId.CSGO.value,nama_item+ Exterior.BS))
+PrintMarketItem(GetMarketItem(AppId.CSGO.value,(nama_item)+ Exterior.BS))
 time.sleep(4)
+"""
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,nama_item+ Exterior.WW))
 time.sleep(4)
@@ -142,4 +145,4 @@ time.sleep(4)
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,Exterior.ST+ nama_item+ Exterior.FN))
 print(pemanis)
-print("Done")
+print("Done")"""
