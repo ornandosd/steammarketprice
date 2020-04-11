@@ -1,7 +1,6 @@
 import urllib.request, json, urllib.error
 import enum
 import time
-from listsenjata import*
 
 class Exterior():
   ST = "StatTrak%E2%84%A2 "
@@ -44,28 +43,29 @@ def GetMarketItem(appid, name, currency = Currency.IND.value):
   strdat = ""
 
   try:
-    url = urllib.request.urlopen("http://steamcommunity.com/market/priceoverview/?appid=%s&currency=%s&market_hash_name=" % (appid, currency) + name)
-    data = json.loads(url.read().decode())
-    Item.name = name.replace("+", " ").replace("StatTrak%E2%84%A2 ", "StatTrak ")
-    strdat = str(data)
-    lowprc = data['lowest_price'].replace(" ", "").replace("Rp","")
-    medprc = data['median_price'].replace(" ", "").replace("Rp","")
-    volume = data['volume']
-    lowprc2 = float(lowprc)
-    lowprc3 = int(lowprc2)
-    medprc2 = float(medprc)
-    medprc3 = int(medprc2)
-    profitprc =(lowprc2 - medprc2)
-    profitprc2 = int(profitprc)
-    profitprc3 = str(profitprc2)
-    profitprcent = ((lowprc2-medprc2)/medprc2)*100
-    #profitprcent = (float(lowprc2)/float(medprc2))*100
-    profitprcent2 = (str(profitprcent))
-    recommended_price = (lowprc3 / 100)*20
-    reccc = lowprc3 - recommended_price
-    recommended_price2 = str(reccc)
-    fullurl = ("https://steamcommunity.com/market/listings/%s/" % (appid)+ name)
-    fullurl2 = (fullurl.replace("+","%20").replace("|","%7C").replace("(","%28").replace(")","%29"))
+    url                = urllib.request.urlopen("http://steamcommunity.com/market/priceoverview/?appid=%s&currency=%s&market_hash_name=" % (appid, currency) + name)
+    data               = json.loads(url.read().decode())
+    Item.name          = name.replace("+", " ").replace("StatTrak%E2%84%A2 ", "StatTrak ")
+    strdat             = str(data)
+    lowest_price       = data['lowest_price'].replace(" ", "").replace("Rp","")
+    median_price       = data['median_price'].replace(" ", "").replace("Rp","")
+    volume             = data['volume']
+    lp_float           = float(lowest_price)
+    mp_float           = float(median_price)
+    lp_int             = int(lp_float)
+    mp_int             = int(mp_float)
+    selisih            = lp_int - mp_int
+    selisih_str        = str(selisih)
+    profitpersen       = ((lp_int - mp_int)/ mp_float)* 100
+    profitpersen_str   = str(profitpersen)
+    tax                = 15/100
+    rec_buy            = lp_int*(1-20/100)#remember tax = 15% so we only takes 5% profit
+    rec_buy_str        = str(rec_buy)
+    gain_sell          = lp_int - (15/100)
+    est_profit         = rec_buy*(1-95/100)
+    est_profit_str     = str(est_profit)
+    fullurl            = ("https://steamcommunity.com/market/listings/%s/" % (appid)+ name)
+    fullurl2           = (fullurl.replace("+","%20").replace("|","%7C").replace("(","%28").replace(")","%29"))
     
     
     print(Item.name, ":")
@@ -86,12 +86,13 @@ def GetMarketItem(appid, name, currency = Currency.IND.value):
       Item.lowest_price = data['lowest_price']
     if (strdat.find('volume') != -1):
       Item.volume = data['volume']
-    if  lowprc > medprc:
-      print("Profit    = Rp",profitprc3, "Atau",profitprcent2[0:3], "%")
-      print("Rec Price = Rp",recommended_price2)
+    if  lowest_price > median_price:
+      print("Selisih   = Rp",selisih_str[0:8], "Atau",profitpersen_str[0:4], "%")
+      print("Rec Buy   = Rp",rec_buy_str)
+      print("Est Profit= Rp",est_profit_str)
     else:
       print("Tidak Profit")
-    if (profitprcent) > 10:
+    if (profitpersen) > 10:
       print("Sangad Profit")
     else:
       pass
@@ -117,7 +118,6 @@ pemanis = ("<-------------------------------------------------------------------
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,(nama_item)+ Exterior.BS))
 time.sleep(4)
-"""
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,nama_item+ Exterior.WW))
 time.sleep(4)
@@ -145,4 +145,4 @@ time.sleep(4)
 print(pemanis)
 PrintMarketItem(GetMarketItem(AppId.CSGO.value,Exterior.ST+ nama_item+ Exterior.FN))
 print(pemanis)
-print("Done")"""
+print("Done")
